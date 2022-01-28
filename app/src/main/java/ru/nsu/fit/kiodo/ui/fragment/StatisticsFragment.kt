@@ -34,15 +34,12 @@ class StatisticsFragment : Fragment() {
     private fun initViewModelObservers() {
         viewModel.favoriteExercise.observe(viewLifecycleOwner) {
             binding.favoriteExerciseName.text = it.exerciseName
-            Log.i("JOPA", it.exerciseName)
         }
         viewModel.favoriteTraining.observe(viewLifecycleOwner) {
             binding.favoriteTrainingName.text = it.trainingName
-            Log.i("JOPA", it.trainingName)
         }
         viewModel.trainingsDoneNumber.observe(viewLifecycleOwner) {
             binding.trainingsDone.text = it.toString()
-            Log.i("JOPA", it.toString())
         }
     }
 
