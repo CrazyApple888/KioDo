@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.kiodo.domain.model.ExerciseModel
 import ru.nsu.fit.kiodo.domain.usecase.SaveExerciseUseCase
+import javax.inject.Inject
 
-class ExerciseEditingViewModel(
+class ExerciseEditingViewModel @Inject constructor(
     private val saveExerciseUseCase: SaveExerciseUseCase
 ) : ViewModel() {
     var exerciseName: String = ""

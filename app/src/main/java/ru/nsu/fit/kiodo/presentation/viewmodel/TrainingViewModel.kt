@@ -9,8 +9,9 @@ import ru.nsu.fit.kiodo.domain.model.ExerciseModel
 import ru.nsu.fit.kiodo.domain.usecase.GetExercisesListUseCase
 import ru.nsu.fit.kiodo.domain.usecase.IncrementExerciseNumberCompletedUseCase
 import ru.nsu.fit.kiodo.domain.usecase.IncrementTrainingNumberCompletedUseCase
+import javax.inject.Inject
 
-class TrainingViewModel(
+class TrainingViewModel @Inject constructor(
     private val getExercisesListUseCase: GetExercisesListUseCase,
     private val incrementExerciseNumberCompletedUseCase: IncrementExerciseNumberCompletedUseCase,
     private val incrementTrainingNumberCompletedUseCase: IncrementTrainingNumberCompletedUseCase

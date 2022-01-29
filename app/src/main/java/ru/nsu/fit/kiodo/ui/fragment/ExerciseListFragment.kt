@@ -1,31 +1,42 @@
 package ru.nsu.fit.kiodo.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import androidx.lifecycle.ViewModelProvider
+import ru.nsu.fit.kiodo.KioDoApp
 import ru.nsu.fit.kiodo.R
 import ru.nsu.fit.kiodo.databinding.FragmentExerciseListBinding
 import ru.nsu.fit.kiodo.domain.model.ExerciseModel
 import ru.nsu.fit.kiodo.presentation.viewmodel.TrainEditingSharedViewModel
 import ru.nsu.fit.kiodo.ui.adapter.ClickableExerciseListAdapter
+import javax.inject.Inject
 
 
 class ExerciseListFragment : Fragment() {
-
 
     private var _binding: FragmentExerciseListBinding? = null
     private val binding: FragmentExerciseListBinding get() = _binding!!
 
     private val adapter = ClickableExerciseListAdapter { addExerciseToTraining(it) }
-    private val viewModel: TrainEditingSharedViewModel by sharedViewModel()
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: TrainEditingSharedViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as KioDoApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)[TrainEditingSharedViewModel::class.java]
+
         _binding = FragmentExerciseListBinding.inflate(inflater, container, false)
 
         with(binding) {

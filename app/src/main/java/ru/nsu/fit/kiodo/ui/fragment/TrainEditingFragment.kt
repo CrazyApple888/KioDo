@@ -1,5 +1,6 @@
 package ru.nsu.fit.kiodo.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import androidx.lifecycle.ViewModelProvider
+import ru.nsu.fit.kiodo.KioDoApp
 import ru.nsu.fit.kiodo.R
 import ru.nsu.fit.kiodo.databinding.FragmentTrainEditingBinding
 import ru.nsu.fit.kiodo.presentation.viewmodel.TrainEditingSharedViewModel
 import ru.nsu.fit.kiodo.ui.adapter.ExerciseListAdapter
+import javax.inject.Inject
 
 class TrainEditingFragment : Fragment() {
 
@@ -25,12 +28,21 @@ class TrainEditingFragment : Fragment() {
     private val binding: FragmentTrainEditingBinding get() = _binding!!
 
     private val adapter = ExerciseListAdapter()
-    private val viewModel: TrainEditingSharedViewModel by sharedViewModel()
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: TrainEditingSharedViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as KioDoApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory)[TrainEditingSharedViewModel::class.java]
+
         _binding = FragmentTrainEditingBinding.inflate(inflater, container, false)
 
         if (savedInstanceState == null) {

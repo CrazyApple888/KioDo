@@ -1,5 +1,6 @@
 package ru.nsu.fit.kiodo.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,11 +8,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.ViewModelProvider
+import ru.nsu.fit.kiodo.KioDoApp
 import ru.nsu.fit.kiodo.R
 import ru.nsu.fit.kiodo.databinding.FragmentTrainingListBinding
 import ru.nsu.fit.kiodo.presentation.viewmodel.TrainingListViewModel
 import ru.nsu.fit.kiodo.ui.adapter.TrainingListAdapter
+import javax.inject.Inject
 
 
 class TrainingListFragment : Fragment() {
@@ -20,12 +23,21 @@ class TrainingListFragment : Fragment() {
     private val binding: FragmentTrainingListBinding get() = _binding!!
     private val adapter = TrainingListAdapter { navigateToTraining(it) }
 
-    private val viewModel: TrainingListViewModel by viewModel()
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: TrainingListViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as KioDoApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[TrainingListViewModel::class.java]
+
         _binding = FragmentTrainingListBinding.inflate(inflater, container, false)
 
         initListeners()

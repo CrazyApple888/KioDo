@@ -1,16 +1,19 @@
 package ru.nsu.fit.kiodo.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.ViewModelProvider
+import ru.nsu.fit.kiodo.KioDoApp
 import ru.nsu.fit.kiodo.R
 import ru.nsu.fit.kiodo.databinding.FragmentTrainingBinding
 import ru.nsu.fit.kiodo.domain.model.ExerciseModel
 import ru.nsu.fit.kiodo.presentation.viewmodel.TrainingViewModel
 import ru.nsu.fit.kiodo.ui.adapter.ExerciseListAdapter
+import javax.inject.Inject
 
 class TrainingFragment : Fragment() {
 
@@ -24,7 +27,13 @@ class TrainingFragment : Fragment() {
     private var trainingName: String? = null
 
     private val adapter = ExerciseListAdapter()
-    private val viewModel: TrainingViewModel by viewModel()
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: TrainingViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as KioDoApp).appComponent.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +44,9 @@ class TrainingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[TrainingViewModel::class.java]
+
         _binding = FragmentTrainingBinding.inflate(inflater, container, false)
 
         if (savedInstanceState == null) {
