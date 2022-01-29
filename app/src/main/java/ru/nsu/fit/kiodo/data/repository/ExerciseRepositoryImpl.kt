@@ -7,8 +7,9 @@ import ru.nsu.fit.kiodo.data.dao.ExerciseDao
 import ru.nsu.fit.kiodo.data.model.exercise.Exercise
 import ru.nsu.fit.kiodo.domain.repository.ExerciseRepository
 import ru.nsu.fit.kiodo.domain.model.ExerciseModel
+import javax.inject.Inject
 
-class ExerciseRepositoryImpl(
+class ExerciseRepositoryImpl @Inject constructor(
     private val exerciseDao: ExerciseDao,
     private val converter: Converter<Exercise, ExerciseModel>
 ) : ExerciseRepository {

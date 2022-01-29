@@ -1,5 +1,6 @@
 package ru.nsu.fit.kiodo.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,25 +11,36 @@ import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.lifecycle.ViewModelProvider
+import ru.nsu.fit.kiodo.KioDoApp
 import ru.nsu.fit.kiodo.R
 import ru.nsu.fit.kiodo.presentation.viewmodel.ExerciseEditingViewModel
 import ru.nsu.fit.kiodo.databinding.FragmentExerciseEditingBinding
 import ru.nsu.fit.kiodo.presentation.viewmodel.TrainEditingSharedViewModel
+import javax.inject.Inject
 
 class ExerciseEditingFragment : Fragment() {
 
     private var _binding: FragmentExerciseEditingBinding? = null
     private val binding: FragmentExerciseEditingBinding get() = _binding!!
 
-    private val viewModel: ExerciseEditingViewModel by viewModel()
-    private val sharedViewModel: TrainEditingSharedViewModel by sharedViewModel()
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: ExerciseEditingViewModel
+    private lateinit var sharedViewModel: TrainEditingSharedViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as KioDoApp).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[ExerciseEditingViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity(), viewModelFactory)[TrainEditingSharedViewModel::class.java]
+
         _binding = FragmentExerciseEditingBinding.inflate(inflater, container, false)
 
         initTextListeners()

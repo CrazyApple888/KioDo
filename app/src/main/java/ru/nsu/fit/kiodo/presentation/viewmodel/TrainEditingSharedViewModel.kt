@@ -9,8 +9,9 @@ import ru.nsu.fit.kiodo.domain.model.ExerciseModel
 import ru.nsu.fit.kiodo.domain.usecase.CheckIsTrainingExistUseCase
 import ru.nsu.fit.kiodo.domain.usecase.GetAllExercisesUseCase
 import ru.nsu.fit.kiodo.domain.usecase.SaveTrainingUseCase
+import javax.inject.Inject
 
-class TrainEditingSharedViewModel(
+class TrainEditingSharedViewModel @Inject constructor(
     private val saveTrainingUseCase: SaveTrainingUseCase,
     private val getAllExercisesUseCase: GetAllExercisesUseCase,
     private val checkIfTrainingExistUseCase: CheckIsTrainingExistUseCase
@@ -35,7 +36,7 @@ class TrainEditingSharedViewModel(
     fun saveTraining() {
         viewModelScope.launch {
             validateData()
-            if(isValidated.value!!) {
+            if (isValidated.value!!) {
                 saveTrainingUseCase(trainingName, restBetweenExercises, selectedExercises.value!!)
                 _isSaved.value = true
             }

@@ -1,6 +1,8 @@
 package ru.nsu.fit.kiodo.data
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.nsu.fit.kiodo.data.dao.ExerciseDao
 import ru.nsu.fit.kiodo.data.dao.TrainingDao

@@ -7,8 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.kiodo.domain.model.TrainingModel
 import ru.nsu.fit.kiodo.domain.usecase.GetAllTrainingUseCase
+import javax.inject.Inject
 
-class TrainingListViewModel(
+class TrainingListViewModel @Inject constructor(
     private val getAllTrainingUseCase: GetAllTrainingUseCase
 ) : ViewModel() {
 

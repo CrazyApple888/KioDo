@@ -12,8 +12,9 @@ import ru.nsu.fit.kiodo.domain.usecase.CheckIsAtLeastOneTrainingExist
 import ru.nsu.fit.kiodo.domain.usecase.GetFavoriteExerciseUseCase
 import ru.nsu.fit.kiodo.domain.usecase.GetFavoriteTrainingUseCase
 import ru.nsu.fit.kiodo.domain.usecase.GetTrainingsDoneNumberUseCase
+import javax.inject.Inject
 
-class StatisticsViewModel(
+class StatisticsViewModel @Inject constructor(
     private val getFavoriteTrainingUseCase: GetFavoriteTrainingUseCase,
     private val getFavoriteExerciseUseCase: GetFavoriteExerciseUseCase,
     private val getTrainingDoneNumberUseCase: GetTrainingsDoneNumberUseCase,
